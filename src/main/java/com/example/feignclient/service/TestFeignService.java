@@ -1,9 +1,8 @@
 package com.example.feignclient.service;
 
-import com.example.feignclient.util.NaverFeignClient;
 import com.example.feignclient.util.TestFeignClient;
 import feign.Feign;
-import lombok.RequiredArgsConstructor;
+import feign.Response;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -11,15 +10,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-public class NaverPayService {
-
+public class TestFeignService {
     @Value("${naver.clientId}")
     private String clientId;
 
@@ -29,28 +25,14 @@ public class NaverPayService {
     @Value("${naver.chainId}")
     private String chainId;
 
-    private final NaverFeignClient feignClient;
 
-    public ResponseEntity payApproval(String paymentId){
-        JSONObject response = feignClient.approvalRequest(this.header(),paymentId);
-        return new ResponseEntity(response, HttpStatusCode.valueOf(200));
+    public ResponseEntity payApprovalByRequestLine(String paymentId){
+        TestFeignClient testFeignClient = Feign.builder().target(TestFeignClient.class,"https://dev.apis.naver.com/naverpay-partner/naverpay/payments/v2.2/apply/payment");
+        Map <String,Object> paramMap = new HashMap<>();
+        paramMap.put("paymentId",paymentId);
+        Response response = testFeignClient.approvalRequest(this.header(),paramMap);
+        return new ResponseEntity(response.body(),HttpStatusCode.valueOf(response.status()));
     }
-
-
-
-    public ResponseEntity payCancel(String paymentId){
-        Map<String,Object> param = new HashMap<>();
-        param.put("paymentId",paymentId);
-        param.put("cancelAmount",10);
-        param.put("cancelReason","test");
-        param.put("cancelRequester","2");
-        param.put("taxScopeAmount",10);
-        param.put("taxExScopeAmount",0);
-
-        JSONObject response = feignClient.cancelRequest(this.header(),param);
-        return new ResponseEntity(response, HttpStatusCode.valueOf(200));
-    }
-
 
     public Map<String,String> header(){
         Map<String, String> headerMap = new HashMap<String, String>();
@@ -64,6 +46,4 @@ public class NaverPayService {
         return headerMap;
 
     }
-
-
 }
