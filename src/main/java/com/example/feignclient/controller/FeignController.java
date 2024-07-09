@@ -35,7 +35,7 @@ public class FeignController {
 
     //네이버페이 결제 승인 요청
     @PostMapping(value = "/naver/payApprovalByRequestLine")
-    public ResponseEntity payApprovalByRequestLine(@RequestBody Map<String,String> param) {
+    public ResponseEntity payApprovalByRequestLine(@RequestBody Map<String,String> param) throws Exception{
         return testFeignService.payApprovalByRequestLine(param.getOrDefault("paymentId",""));
     }
 

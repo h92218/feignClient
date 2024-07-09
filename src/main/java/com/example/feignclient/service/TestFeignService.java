@@ -26,12 +26,15 @@ public class TestFeignService {
     private String chainId;
 
 
-    public ResponseEntity payApprovalByRequestLine(String paymentId){
+    public ResponseEntity payApprovalByRequestLine(String paymentId) throws Exception{
         TestFeignClient testFeignClient = Feign.builder().target(TestFeignClient.class,"https://dev.apis.naver.com/naverpay-partner/naverpay/payments/v2.2/apply/payment");
         Map <String,Object> paramMap = new HashMap<>();
         paramMap.put("paymentId",paymentId);
         Response response = testFeignClient.approvalRequest(this.header(),paramMap);
-        return new ResponseEntity(response.body(),HttpStatusCode.valueOf(response.status()));
+        String responseBody = new String(response.body().asInputStream().readAllBytes());
+
+
+        return new ResponseEntity(responseBody,HttpStatusCode.valueOf(200));
     }
 
     public Map<String,String> header(){
