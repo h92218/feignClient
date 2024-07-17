@@ -1,8 +1,6 @@
 package com.example.feignclient.service;
 
 import com.example.feignclient.util.NaverFeignClient;
-import com.example.feignclient.util.TestFeignClient;
-import feign.Feign;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

@@ -3,3 +3,7 @@ naver:
   clientSecret: ${naver_client_secret}
   chainId: ${naver_chain_id}
   url: https://dev.apis.naver.com/naverpay-partner/naverpay/payments
+
+kakao:
+  secretKey: ${kakao_secretKey}
+  url: https://open-api.kakaopay.com/online/v1/payment
